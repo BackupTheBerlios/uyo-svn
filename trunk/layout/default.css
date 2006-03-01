@@ -1,0 +1,99 @@
+body, td {
+  background-color: #fff;
+  color: #000;
+  font-family: "Helvetica", "Lucida Grande", "Georgia", sans-serif;
+  font-size: 12pt;
+}
+
+div.inline img, div.info img {
+  border: 2px solid #111;
+}
+
+h1 {
+  font-size: 26pt;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 14pt;
+  font-weight: 600;
+}
+
+h2:first-letter {
+  font-size: 16pt;
+}
+
+a, a:link, a:visited {
+  color: #00c;
+  text-decoration: none;
+  border-bottom: 1px dashed #00c;
+}
+
+a:active, a:hover, a:focus {
+  color: #33f;
+  text-decoration: none;
+  border-bottom: 1px solid #33f;
+}
+
+a img {
+  border-bottom: 0px solid #fff;
+}
+
+div.box {
+  margin: 0.8em 1em 1em 0.7em;
+  padding: 0px;
+  width: 500px;
+}
+
+div.entry, div.entry_auto_unverified, div.entry_auto_important, div.entry_auto_rescheduling, div.entry_auto, div.entry_verified, div.entry_manual {
+  border: 2px solid #16c;
+  background-color: #6bf;
+  margin: 0px;
+  padding: 0em 1em 0.8em 0.6em;
+}
+
+div.inline {
+  margin: 0.6em 0.4em 0px 0px;
+  float: left;
+}
+
+div.info, div.comments {
+/*  border: 2px solid #111; /* either border here or border around `div.info img´ */
+/*  width: 24px;
+  height: 24px; */    /* Only neccessary if I want the possibility of empty boxes */
+  float: right;
+  position: relative;
+  left: 54px;
+  top: -2px;
+  margin: 0px;
+}
+
+div.comments {
+  width: 24px;
+  height: 22px;
+  left: 26px;
+  top: 26px;
+  border: 2px solid #111;
+  text-align: center;
+  padding-top: 2px;
+}
+
+div.comments a, div.comments a:link, div.comments a:focus, div.comments a:active, div.comments a:visited, div.comments a:hover {
+  font-size: 13pt;
+  color: #000;
+  font-weight: 800;
+  border-bottom: 0px solid #fff;
+}
+
+div p {
+  margin: 0em;
+  padding: 0em;
+}
+
+div p blockquote, div blockquote {
+  margin: 0.4em;
+  padding: 0.3em;
+  font-size: 10pt;
+  background-color: #aaf;
+  border: 1px dashed #66a;
+}
