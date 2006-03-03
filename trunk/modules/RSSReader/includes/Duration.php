@@ -1,4 +1,9 @@
 <?php
+/*
+ * Aidan Lister has dedicated this code to the Public Domain.
+ * More information is available at http://aidanlister.com/repos/license/
+ */
+
 /**
  * A class for making time periods readable.
  *

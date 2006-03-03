@@ -1,3 +1,5 @@
+# If you alter the database in any way, make sure to record the changes here!
+
 USE `uyo_development`;
 
 CREATE TABLE `uyo_settings` (
