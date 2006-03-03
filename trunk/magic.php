@@ -16,7 +16,7 @@ switch($action) {
 		// write post to db
 		break;
 	case 'edit':
-		// open editing window (edit.php) (with original post contents where applicable)
+		// update post in db
 		break;
 	case 'del':
 		// delete post from db
