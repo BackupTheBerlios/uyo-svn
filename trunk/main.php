@@ -43,4 +43,5 @@ $t = '<!DOCTYPE HTML PUBLIC "-//SoftQuad//DTD draft HTML 3.2 + extensions for Ho
 </BODY>
 </HTML>';
 $r = fysmek1($t);
+//var_dump($r);
 ?>
