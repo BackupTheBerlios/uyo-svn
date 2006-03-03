@@ -43,9 +43,9 @@
 // echo $a->getResponseBody();
 //
 
-require_once 'libs/PEAR/PEAR/PEAR.php';
-require_once 'libs/PEAR/Net/Socket.php';
-require_once 'libs/PEAR/Net/URL.php';
+require_once "$GLOBALS[PROJECT_BASEDIR]/libs/PEAR.php";
+require_once 'NetSocket.php';
+require_once 'NetURL.php';
 
 define('HTTP_REQUEST_METHOD_GET',     'GET',     true);
 define('HTTP_REQUEST_METHOD_HEAD',    'HEAD',    true);

@@ -20,7 +20,7 @@
 // $Id: RSS.php,v 1.26 2005/05/25 20:48:46 mj Exp $
 //
 
-require_once 'Parser.php';
+require_once 'XMLParser.php';
 
 /**
 * RSS parser class.

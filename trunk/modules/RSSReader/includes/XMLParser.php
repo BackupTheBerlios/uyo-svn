@@ -36,7 +36,7 @@
 /**
  * uses PEAR's error handling
  */
-require_once "$PROJECT_BASEDIR/libs/PEAR/PEAR/PEAR.php";
+require_once "$GLOBALS[PROJECT_BASEDIR]/libs/PEAR.php";
 
 /**
  * resource could not be created
@@ -476,7 +476,7 @@ class XML_Parser extends PEAR
         // otherwise, $this->fp must be a string
         } else {
             if (!$this->_parseString($this->fp, true)) {
-                $error = &$this->raiseError();
+                $error = $this->raiseError();
                 $this->free();
                 return $error;
             }

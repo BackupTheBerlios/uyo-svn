@@ -1,5 +1,6 @@
 <?php
-  require_once('libs/PEAR/HTTP/Request.php');        // passes proper HTTP requests
+  require_once('HTTPRequest.php');        // passes proper HTTP requests
+  require_once("$GLOBALS[PROJECT_BASEDIR]/libs/PEAR.php");
 
   // all HEAD requests performed are of the same simple variant, so I made a class to avoid code duplication
   class SimpleHEAD {

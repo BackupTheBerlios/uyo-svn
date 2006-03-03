@@ -19,7 +19,7 @@
 //
 // $Id: Socket.php,v 1.24 2005/02/03 20:40:16 chagenbu Exp $
 
-require_once 'libs/PEAR/PEAR/PEAR.php';
+require_once "$GLOBALS[PROJECT_BASEDIR]/libs/PEAR.php";
 
 define('NET_SOCKET_READ',  1);
 define('NET_SOCKET_WRITE', 2);

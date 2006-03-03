@@ -1,6 +1,6 @@
 <?php
-	require_once('libs/SimpleHEAD.php');               // passes simple HTTP HEAD requests
-  require_once('libs/Aidan_Lister/Duration.php');    // writes human readable time durations
+	require_once('SimpleHEAD.php');               // passes simple HTTP HEAD requests
+  require_once('Duration.php');    // writes human readable time durations
   
   class ServerTestPackage {
     function ServerTestPackage() {
