@@ -118,6 +118,7 @@ class Entry {
 				if ($this->status == 'manual') {
 					$result .= '<a href="profile.php?id='.$this->author->id.'"><img src="'.$this->author->tinyimageurl.'" alt="Manual entry" title="Manual entry by '.$this->author->name.' at '.date("Y-m-d H:i", $this->modifieddate).'." /></a>';
 				} else {
+					// FIXME: find out what to do with the tinyautoentryimageurl thingy. I was probably thinking about some (currently non-existent) class variable
 					$result .= '<img src="'.$tinyautoentryimageurl.' alt="Automatic entry" title="Automatic entry at '.date("Y-m-d H:i", $this->modifieddate).'." />';
 				}
 

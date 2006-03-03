@@ -42,10 +42,10 @@
      */
     function FlatFileStore($filename) {
       // Open a file connection for 'r+'
-      $this->$handle = fopen($filename, 'r+');
-      $this->$filename = $filename;
+      $this->handle = fopen($filename, 'r+');
+      $this->filename = $filename;
       // Set a shared lock
-      flock($this->$handle, LOCK_SH);
+      flock($this->handle, LOCK_SH);
     }
     
     /**
@@ -55,15 +55,15 @@
       // Ignore user aborts, so the file won't be hosed
       ignore_user_abort(true);
       // Set an exclusive lock
-      flock($this->$handle, LOCK_EX);
+      flock($this->handle, LOCK_EX);
       // Reset file pointer
-      rewind($this->$handle);
+      rewind($this->handle);
       // Truncate file to 0 bytes
-      ftruncate($this->$handle, 0);
+      ftruncate($this->handle, 0);
       // Write data
-      fwrite($this->$handle, $data);
+      fwrite($this->handle, $data);
       // Set a shared lock
-      flock($this->$handle, LOCK_SH);
+      flock($this->handle, LOCK_SH);
       // Allow user aborts again
       ignore_user_abort(false);
     }
@@ -73,9 +73,9 @@
      */
     function read() {
       // Reset file pointer
-      rewind($this->$handle);
+      rewind($this->handle);
       // Read the whole file length
-      $data = fread($this->$handle, filesize($this->$filename));
+      $data = fread($this->handle, filesize($this->filename));
       return $data;
     }
     
@@ -84,9 +84,9 @@
      */
     function destroy() {
       // Unlock file lock
-      flock($this->$handle, LOCK_UN);
+      flock($this->handle, LOCK_UN);
       // Close file connection
-      fclose($this->$handle);
+      fclose($this->handle);
     }
   }
   
@@ -127,10 +127,16 @@
     /**
      * Read string data from database
      */
-    function read($table, $fields) {
+    function read($table, $fields, $where='') {
       if (count($fields) > 0) {
-        // Query table for data
-        $query = 'SELECT `'.dbx_escape_string($this->handle, implode('`,`', $fields)).'` FROM `'.dbx_escape_string($this->handle, $table).'`;';
+      		// Query table for data
+      		if (isset($where)) {
+      			// Fetch some
+      			$query = 'SELECT `'.dbx_escape_string($this->handle, implode('`,`', $fields)).'` FROM `'.dbx_escape_string($this->handle, $table).'` WHERE '.dbx_escape_string($this->handle, $where).';';
+      		} else {
+        		// Fetch all
+        		$query = 'SELECT `'.dbx_escape_string($this->handle, implode('`,`', $fields)).'` FROM `'.dbx_escape_string($this->handle, $table).'`;';
+      		}
     //  echo "[QUERY]: $query\n";
         $result = dbx_query($this->handle, $query);
         if (!is_object($result)) {

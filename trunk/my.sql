@@ -52,7 +52,7 @@ CREATE TABLE `entries` (
   `title` VARCHAR(255), 
   `text` TEXT,
   `status` ENUM('manual', 'automatic'),
-  `type` ENUM('text', 'link', 'rescheduling', 'important', 'mail')
+  `type` ENUM('text', 'link', 'rescheduling', 'important', 'mail') NOT NULL DEFAULT 'text'
 );
 
 # Create a couple of demo posts

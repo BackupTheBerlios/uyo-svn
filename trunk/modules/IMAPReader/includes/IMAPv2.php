@@ -33,7 +33,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.                                                 \\
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-require_once 'PEAR/ErrorStack.php';
+global $PROJECT_BASEDIR;
+require_once "$PROJECT_BASEDIR/libs/ErrorStack.php";
 
 define('Mail_IMAPv2_BODY',                                0);
 define('Mail_IMAPv2_LITERAL',                             1);
@@ -320,7 +321,8 @@ class Mail_IMAPv2 {
     */
     function connect($uri, $get_info = true)
     {
-        if (!class_exists('Net_URL') && !@include_once('Net/URL.php')) {
+    			// FIXME: Remove this stuff here - module.php will automatically include it
+        if (!class_exists('Net_URL') && !@include_once('NetURL.php')) {
 			$this->error->push(Mail_IMAPv2_ERROR, 'error', null, 'Inclusion of Net_URL not successful.');
             return false;
         }
