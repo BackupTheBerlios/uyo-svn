@@ -20,10 +20,7 @@
 function RSSReader_activate() {
 	ini_set('error_reporting', E_ALL);
 	ini_set('display_errors', 1);
-	require_once ("$PROJECT_BASEDIR/libs/Aidan_Lister/Duration.php"); // writes human readable time durations
-	require_once ("$PROJECT_BASEDIR/libs/SimpleHEAD.php");			// passes simple HTTP HEAD requests
 	require_once ("$PROJECT_BASEDIR/libs/TempStore.php");				// abstracts data storage
-	require_once ("$PROJECT_BASEDIR/libs/ServerTestPackage.php");		// tests aspects of external servers
 
 	// returns MySQL valid timestamp
 	function mysql_time($t) {
