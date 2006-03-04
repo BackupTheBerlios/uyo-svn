@@ -23,6 +23,7 @@ require_once ('module.php'); // Class to handle modules
 
 Module :: search('modules'); // Activate any modules found
 
+/*
 // got this from a UiO site. ideally fysmek1() should be able to fetch only the title and text.
 $t = '<!DOCTYPE HTML PUBLIC "-//SoftQuad//DTD draft HTML 3.2 + extensions for HoTMetaL PRO 3.0 19960802//EN" "hmpro3.dtd">
 <HTML> 
@@ -60,5 +61,5 @@ $t = '<!DOCTYPE HTML PUBLIC "-//SoftQuad//DTD draft HTML 3.2 + extensions for Ho
 </BODY>
 </HTML>';
 $r = fysmek1($t);
-//var_dump($r);
+var_dump($r);*/
 ?>

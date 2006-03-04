@@ -21,16 +21,11 @@
 $entry = array();
 
 // this script will display the editor window
-if (isset($POST['id']) || isset($GET['id'])) {
+if (isset($_REQUEST['id'])) {
 	// fetch old post contents
-	if (isset($POST['id'])) {
-		$id = $POST['id'];
-	} else {
-		$id = $GET['id'];
-	}
 	$sql = & new DBXStore('localhost', 'root', '', 'uyo_development'); // data storage handle
 	// read old post contents from data storage
-	$entry = $sql->read('entries', array ('id', 'author', 'group', 'title', 'text', 'status', 'type'), "`id`='$id'");
+	$entry = $sql->read('entries', array ('id', 'author', 'group', 'title', 'text', 'status', 'type'), "`id`='$_REQUEST['id']'");
 }
 
 // extremely plain, botched together interface
@@ -45,9 +40,9 @@ if (isset($id)) {
 echo '</title>
 	</head>
 	<body>
-		<form method="POST"'./*Or perhaps it should be GET?*/' action="magic.php">
+		<form method="POST" action="magic.php">
 			<h1>';
-if (isset($id)) {
+if (isset($_REQUEST['id'])) {
 	echo "Editing post &laquo;$entry[title]&raquo;";
 } else {
 	echo 'New post';

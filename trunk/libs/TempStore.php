@@ -130,7 +130,7 @@
     function read($table, $fields, $where='') {
       if (count($fields) > 0) {
       		// Query table for data
-      		if (isset($where)) {
+      		if (isset($where) && !empty($where)) {
       			// Fetch some
       			$query = 'SELECT `'.dbx_escape_string($this->handle, implode('`,`', $fields)).'` FROM `'.dbx_escape_string($this->handle, $table).'` WHERE '.dbx_escape_string($this->handle, $where).';';
       		} else {

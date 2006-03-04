@@ -20,7 +20,7 @@
 function RSSReader_activate() {
 	ini_set('error_reporting', E_ALL);
 	ini_set('display_errors', 1);
-	require_once ("$PROJECT_BASEDIR/libs/TempStore.php");				// abstracts data storage
+	require_once ("$GLOBALS[PROJECT_BASEDIR]/libs/TempStore.php");				// abstracts data storage
 
 	// returns MySQL valid timestamp
 	function mysql_time($t) {
