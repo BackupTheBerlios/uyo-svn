@@ -110,17 +110,31 @@
     /**
      * Write string data to database
      */
-    function write($table, $field, $id, $data) {
-      // Update data field in a table
-      if (!isset($id) || empty($id)) {
-        die("Variable ID is not set! Cannot perform WRITE query!\n");
+    function write($table, $fields, $id) {
+    		if (count($fields) > 0) {
+      		// Update data field in a table
+	      if (!isset($id) || empty($id)) {
+	        die("Variable ID is not set! Cannot perform WRITE query!\n");
+	      } else {
+	        $query = 'UPDATE `'.dbx_escape_string($this->handle, $table).'` SET ';
+	        // Fetch the last field
+	        end($fields);
+	        $lastfield = key($fields);
+	        $lastdata = array_pop($fields);
+	        reset($fields);
+	        foreach ($fields as $field => $data) {
+	        		$query .= '`'.dbx_escape_string($this->handle, $field).'` = \''.dbx_escape_string($this->handle, $data).'\', ';
+	        }
+	        $query .= '`'.dbx_escape_string($this->handle, $lastfield).'` = \''.dbx_escape_string($this->handle, $lastdata).'\' ';
+	        $query .= 'WHERE `id` = \''.dbx_escape_string($this->handle, $id).'\' LIMIT 1;';
+	        echo "[QUERY]: $query\n";
+	        $result = dbx_query($this->handle, $query);
+	        if (PEAR::isError($result)) {
+	          die("Error performing WRITE query.<br />\nError returned: ".dbx_error($this->handle)."\n");
+	        }
+	      }
       } else {
-        $query = 'UPDATE `'.dbx_escape_string($this->handle, $table).'` SET `'.dbx_escape_string($this->handle, $field).'`=\''.dbx_escape_string($this->handle, $data).'\' WHERE `id`=\''.dbx_escape_string($this->handle, $id).'\' LIMIT 1;';
-    //  echo "[QUERY]: $query\n";
-        $result = dbx_query($this->handle, $query);
-        if (PEAR::isError($result)) {
-          die("Error performing WRITE query.<br />\nError returned: ".dbx_error($this->handle)."\n");
-        }
+        die("Please write to at least one field!\n");
       }
     }
     
@@ -130,20 +144,18 @@
     function read($table, $fields, $where='') {
       if (count($fields) > 0) {
       		// Query table for data
-      		if (isset($where) && !empty($where)) {
-      			// Fetch some
+        	$query = 'SELECT `'.dbx_escape_string($this->handle, implode('`,`', $fields)).'` FROM `'.dbx_escape_string($this->handle, $table).'`;';
+      		if (isset($where) && !empty($where) && $where != '') {
+      			// Fetch only some
       			$query = 'SELECT `'.dbx_escape_string($this->handle, implode('`,`', $fields)).'` FROM `'.dbx_escape_string($this->handle, $table).'` WHERE '.dbx_escape_string($this->handle, $where).';';
-      		} else {
-        		// Fetch all
-        		$query = 'SELECT `'.dbx_escape_string($this->handle, implode('`,`', $fields)).'` FROM `'.dbx_escape_string($this->handle, $table).'`;';
       		}
-    //  echo "[QUERY]: $query\n";
+        echo "[QUERY]: $query\n";
         $result = dbx_query($this->handle, $query);
         if (!is_object($result)) {
           die("Error performing READ query.<br />\nError returned: ".dbx_error($this->handle)."\n");
         }
       } else {
-        die("Please select at least one field to read!");
+        die("Please select at least one field to read!\n");
       }
       return $result;
     }

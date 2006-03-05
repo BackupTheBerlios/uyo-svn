@@ -54,20 +54,26 @@
       echo "Storing these details in the database...";
       if ($usesetag === true && $useslm === true) {
         // supports both etag and last-modified
-        $sql->write('test', 'reports', $id, 'complete');
-        $sql->write('test', 'etag', $id, $resp['et']);
-        $sql->write('test', 'lastmodified', $id, date('Y-m-d H:i:s', strtotime($resp['lm'])));
+				$sql->write('feeds', array(
+					'reports' => 'complete', 
+					'etag' => $resp['et'], 
+					'lastmodified' => date('Y-m-d H:i:s', strtotime($resp['lm']))
+				), $id);
       } elseif ($usesetag === true && $useslm === false) {
         // supports only etag (I don't expect this to happen)
-        $sql->write('test', 'reports', $id, 'etagonly');
-        $sql->write('test', 'etag', $id, $resp['et']);
+        $sql->write('feeds', array(
+					'reports' => 'etagonly', 
+					'etag' => $resp['et'], 
+				), $id);
       } elseif ($usesetag === false && $useslm === true) {
         // supports only last-modified
-        $sql->write('test', 'reports', $id, 'lmonly');
-        $sql->write('test', 'lastmodified', $id, date('Y-m-d H:i:s', strtotime($resp['lm'])));
+        $sql->write('feeds', array(
+					'reports' => 'lmonly', 
+					'lastmodified' => date('Y-m-d H:i:s', strtotime($resp['lm']))
+				), $id);
       } elseif ($usesetag === false && $useslm === false) {
         // supports neither etag nor last-modified (bad server!)
-        $sql->write('test', 'reports', $id, 'none');
+        $sql->write('feeds', array('reports' => 'none'), $id);
       } else {
         // ambiguous test results
         die("Ambiguous test results: useslm = $useslm, usesetag = $usesetag.\n");

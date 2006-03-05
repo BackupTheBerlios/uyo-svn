@@ -39,9 +39,9 @@ function RSSReader_activate() {
 	}
 
 	// CONSTANTS AND HANDLES
-	$shortwait = 10 * 60; // time in seconds between each check for new content on well reporting servers (10*60 is a good value here)
-	$longwait = 60 * 60; // time in seconds between each redownload of content on servers not reporting content information (30*60 is a good value here)
-	$sql = & new DBXStore('localhost', 'root', '', 'uyo_development'); // data storage handle
+	$shortwait = 10; // time in seconds between each check for new content on well reporting servers (10*60 is a good value here)
+	$longwait = 30; // time in seconds between each redownload of content on servers not reporting content information (30*60 is a good value here)
+	$sql = & new DBXStore($GLOBALS['DB_HOST'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_DATABASE']); // data storage handle
 	$feeds = $sql->read('feeds', array ('id', 'url', 'timer', 'lastmodified', 'etag', 'reports')); // cache of all relevant information from data storage
 	$ett = null; // I have to get the ETag we got from the server to the data writing bit somehow...
 	$lmm = null; // I have to get the Last-Modified timestamp we got from the server to the data writing bit somehow...
@@ -86,7 +86,7 @@ function RSSReader_activate() {
 					echo "Cool, these ETags are equal! No need to update.\n";
 					$update = false;
 					// we can't check ALL the time!
-					$sql->write('feeds', 'timer', $feed['id'], mysql_time(time()));
+					$sql->write('feeds', array('timer' => mysql_time(time())), $feed['id']);
 					$ett = $resp['et']; // I have to get this to the data writing bit somehow...
 				}
 				elseif (isset ($feed['etag']) && isset ($resp['et']) && !empty ($resp['et']) && $feed['etag'] != null && $feed['etag'] != $resp['et']) {
@@ -116,7 +116,7 @@ function RSSReader_activate() {
 					echo "Cool, these Last-Modified timestamps are equal! No need to update.\n";
 					$update = false;
 					// we can't check ALL the time!
-					$sql->write('feeds', 'timer', $feed['id'], mysql_time(time()));
+					$sql->write('feeds', array('timer' => mysql_time(time())), $feed['id']);
 				}
 				elseif (isset ($feed['lastmodified']) && $lmm != 0 && strtotime($feed['lastmodified']) != $lmm) {
 					echo "These timestamps are different; proceeding with download.\n";
@@ -173,22 +173,32 @@ function RSSReader_activate() {
 			// we've updated, now write a new timestamp
 			if (isset ($ett) && !empty ($ett) && isset ($lmm) && !empty ($lmm)) {
 				// Got both ETag and Last-Modified from server (bravo!)
-				$sql->write('feeds', 'timer', $feed['id'], mysql_time(time())); // write the current time
-				$sql->write('feeds', 'etag', $feed['id'], $ett); // write the ETag we got
-				$sql->write('feeds', 'lastmodified', $feed['id'], mysql_time($lmm)); // write the Last-Modified timestamp we got
+				// write the current time, the ETag we got, and the Last-Modified timestamp we got
+				$sql->write('feeds', array(
+					'timer' => mysql_time(time()), 
+					'etag' => $ett, 
+					'lastmodified' => mysql_time($lmm)
+				), $feed['id']);
 			}
 			elseif (isset ($ett) && !empty ($ett)) {
 				// Only got ETag from server
-				$sql->write('feeds', 'timer', $feed['id'], mysql_time(time())); // write the current time
-				$sql->write('feeds', 'etag', $feed['id'], $ett); // write the ETag we got
+				// write the current time and the ETag we got
+				$sql->write('feeds', array(
+					'timer' => mysql_time(time()), 
+					'etag' => $ett, 
+				), $feed['id']);
 			}
 			elseif (isset ($lmm) && !empty ($lmm)) {
 				// Only got Last-Modified from server
-				$sql->write('feeds', 'timer', $feed['id'], mysql_time(time())); // write the current time
-				$sql->write('feeds', 'lastmodified', $feed['id'], mysql_time($lmm)); // write the Last-Modified timestamp we got
+				// write the current time and the Last-Modified timestamp we got
+				$sql->write('feeds', array(
+					'timer' => mysql_time(time()), 
+					'lastmodified' => mysql_time($lmm), 
+				), $feed['id']);
 			} else {
 				// Got no content information from server (bad server!)
-				$sql->write('feeds', 'timer', $feed['id'], mysql_time(time())); // just write the current time
+				// just write the current time
+				$sql->write('feeds', array('timer' => mysql_time(time())), $feed['id']);
 			}
 		}
 
