@@ -28,13 +28,14 @@ CREATE TABLE `users` (
   `lastname` VARCHAR(50), 
   `nickname` VARCHAR(50), 
   `url` VARCHAR(255),
-  `email` VARCHAR(255),
+  `email` VARCHAR(255) NOT NULL,
   `photo` BLOB # 65 KB ought to be more than enough
   # is it better to have the photos as files or as blobs?
 );
 
-# Create an admin user
+# Create an admin user and a user for automatic posts (must update autobot's password with a strong, random password later!)
 INSERT INTO `users` (`username`, `password`, `rank`, `firstname`) VALUES ('admin', MD5('admin'), 9, 'Administrator');
+INSERT INTO `users` (`username`, `rank`, `firstname`) VALUES ('autobot', 4, 'Automatic post');
 
 CREATE TABLE `groups` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -47,6 +48,7 @@ INSERT INTO `groups` (`name`, `description`) VALUES ('demogroup', 'This is a dem
 
 CREATE TABLE `entries` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+  `date` DATETIME NOT NULL,
   `author` INT NOT NULL REFERENCES users(id), 
   `group` INT NOT NULL REFERENCES groups(id), 
   `title` VARCHAR(255), 
@@ -58,6 +60,20 @@ CREATE TABLE `entries` (
 # Create a couple of demo posts
 INSERT INTO `entries` (`author`, `group`, `title`, `text`, `status`, `type`) VALUES (1, 1, 'Demo Post 1', '<p>Hey there! This is a small demo post, just to show you what entries into this system can look like.</p>', 'automatic', 'text');
 INSERT INTO `entries` (`author`, `group`, `title`, `text`, `status`, `type`) VALUES (1, 1, 'Demo Post 2', '<p>If you like what you see, well, GOOD FOR YOU! ;)</p><p>Nah, seriously, if you do--send me an email! You can reach me at \'mail\', the usual A shaped doodle, \'funky-m.com\'. Thanks!</p>', 'automatic', 'link');
+
+CREATE TABLE `comments` (
+  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `entry` INT REFERENCES entries(id),
+  `author` INT REFERENCES users(id),
+  `author_ip` VARCHAR(15),
+  `author_email` VARCHAR(50),
+  `author_url` VARCHAR(255),
+  `text` TEXT
+);
+
+# Create a demo comment
+INSERT INTO `comments` (`date`, `author`, `entry`, `text`) VALUES (NOW(), 1, 1, 'Hi there!<br />This is a comment, just to show you how these guys can look. Enjoy!<br />--UyO');
 
 CREATE TABLE `links` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
