@@ -23,22 +23,22 @@ CREATE TABLE `feeds` (
 
 CREATE TABLE `users` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
-  `username` VARCHAR(15) NOT NULL,
+  `username` VARCHAR(15) NOT NULL UNIQUE,
   `password` CHAR(32) NOT NULL DEFAULT MD5(''),
   `rank` TINYINT(1) NOT NULL DEFAULT 0,
   `firstname` VARCHAR(50), 
   `lastname` VARCHAR(50), 
   `nickname` VARCHAR(50), 
-  `displayname` ENUM('f l', 'l f', 'l, f', 'n', 'f "n" l'), 
+  `displayname` ENUM('f l', 'l f', 'n', 'f "n" l') NOT NULL DEFAULT 'n', 
   `url` VARCHAR(255),
-  `email` VARCHAR(255) NOT NULL,
-  `tinyimageurl` VARCHAR(255), 
-  `bigimageurl` VARCHAR(255)
+  `email` VARCHAR(255) UNIQUE,
+  `tinyimageurl` VARCHAR(255) UNIQUE, 
+  `bigimageurl` VARCHAR(255) UNIQUE
 );
 
 # Create an admin user and a user for automatic posts (must update autobot's password with a strong, random password later!)
 INSERT INTO `users` (`username`, `password`, `rank`, `nickname`, `displayname`) VALUES ('admin', MD5('admin'), 9, 'Administrator', 'n');
-INSERT INTO `users` (`username`, `rank`, `nickname`, `displayname`) VALUES ('autobot', 4, 'Automatic post', 'n');
+INSERT INTO `users` (`username`, `rank`, `nickname`, `displayname`, `tinyimageurl`, `bigimageurl`) VALUES ('autobot', 4, 'Automatic post', 'n', 'autobot_thumb.png', 'autobot.png');
 
 CREATE TABLE `groups` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
