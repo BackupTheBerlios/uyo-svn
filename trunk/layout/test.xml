@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<site>
+	<title>Test front page</title>
+	<entry>
+		<author>Autobot</author>
+		<type>simple</type>
+		<status>automatic</status>
+		<title>Title</title>
+		<text><![CDATA[ Lorem Ipsum dolor sit amet. Lorem Ipsum dolor sit amet. Test. ]]></text>
+		<group>MEF-bachelor</group>
+		<group>MEF-master</group>
+		<group>KJM1011</group>
+		<comment>
+			<author>
+				<ip>127.0.0.1</ip>
+				<email>mail@funky-m.com</email>
+				<url>http://funky-m.com</url>
+			</author>
+			<date>2006-03-06 08:36:32</date>
+			<text><![CDATA[ Hi there!! --Vegar ]]></text>
+		</comment>
+		<comment>
+			<author>
+				<id>2</id>
+				<name>Autobot</name>
+				<email>mail@funky-m.com</email>
+				<url>http://funky-m.com</url>
+			</author>
+			<date>2006-03-06 08:38:46</date>
+			<text><![CDATA[ OMG LOL!! --Autobot ]]></text>
+		</comment>
+	</entry>
+</site>
