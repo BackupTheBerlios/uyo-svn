@@ -18,6 +18,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+// Local cache of MySQL data (reduces number of queries)
+$group_codes = array();
+$author_usernames = array();
+$linktype_shortnames = array();
+$entrytype_shortnames = array();
+
 /**
  * A group (most likely the uni course) entries can belong to
  */
@@ -36,11 +42,14 @@ class Group {
 	 * @param string HTMLized RGB color of the border
 	 * @param string HTMLized RGB color of the background
 	 */
-		function Group($code, $name, $bc = '#0a8', $bgc = '#0f0') {// Do I have to specify default values here, or above?
+		function Group($code, $name, $bc = '#0a8', $bgc = '#0f0') {
 		$this->code = $code;
 		$this->name = $name;
 		$this->bordercolor = $bc;
 		$this->bgcolor = $bgc;
+		
+		// Append to collection of groups
+		$group_codes[$this->code] = $this;
 	}
 } // end Group
 
@@ -118,10 +127,9 @@ class Entry {
 
 				// Status indicator (automatic/manual entry + profile link)
 				if ($this->status == 'manual') {
-					$result .= '<a href="profile.php?id='.$this->author->id.'"><img src="'.$this->author->tinyimageurl.'" alt="Manual entry" title="Manual entry by '.$this->author->name.' at '.date("Y-m-d H:i", $this->modifieddate).'." /></a>';
+					$result .= '<a href="profile.php?id='.$this->author->id.'"><img src="$GLOBALS[USERIMAGEDIR]/'.$this->author->tinyimageurl.'" alt="Manual entry" title="Manual entry by '.$this->author->name.' at '.date("Y-m-d H:i", $this->modifieddate).'." /></a>';
 				} else {
-					// FIXME: find out what to do with the tinyautoentryimageurl thingy.
-					$result .= '<img src="'.$tinyautoentryimageurl.' alt="Automatic entry" title="Automatic entry at '.date("Y-m-d H:i", $this->modifieddate).'." />';
+					$result .= '<img src="$GLOBALS[USERIMAGEDIR]/'.$author_usernames['autobot']->tinyimageurl.' alt="Automatic entry" title="Automatic entry at '.date("Y-m-d H:i", $this->modifieddate).'." />';
 				}
 
 				$result .= '
@@ -160,6 +168,30 @@ class Entry {
 	} // end Entry
 }
 
+/**
+ * An entry (/ comment?) author
+ */
+ class Author {
+ 	var $id;
+ 	var $username;
+ 	var $fname;
+ 	var $lname;
+ 	var $nick;
+ 	var $photo;	// with the current mysql scheme, this is an image blob
+ 	
+ 	function Author($id, $username, $fname = '', $lname = '', $nick = '', $photo = '') {
+ 		$this->id = $id;
+ 		$this->username = $username;
+ 		$this->fname = $fname;
+ 		$this->lname = $lname;
+ 		$this->nick = $nick;
+ 		$this->photo = $photo;	// with the current mysql scheme, this is an image blob
+ 		
+		// Append to collection of authors
+		$author_usernames[$this->username] = $this;
+ 	}
+ }
+
 // Comment class : is it easier to do this simply aspect-oriented? _should_ it be OO?
 /*
 class Comment {
@@ -191,6 +223,9 @@ class LinkType {
 		$this->shortname = $shortname;
 		// FIXME: regex URL verification
 		$this->image = $image;
+		
+		// Append to collection of link types
+		$linktype_shortnames[$this->shortname] = $this;
 	}
 }
 
@@ -207,6 +242,9 @@ class EntryType {
 		$this->image = $image;
 		// FIXME: permalinks for viewing only entries belonging to certain categories
 		$this->permalink = $permalink;
+		
+		// Append to collection of entry types
+		$entrytype_shortnames[$this->shortname] = $this;
 	}
 }
 ?>

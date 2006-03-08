@@ -31,4 +31,8 @@ $GLOBALS['DB_DATABASE'] = 'uyo_development';	// database to connect to
 $GLOBALS['DB_HOST'] = 'localhost';	// database server to connect to
 //  - Flat file options
 // nothing here yet
+
+// Media
+//  - Images
+$GLOBALS['USERIMAGEDIR'] = 'media/images/users';	// directory where user images are kept. (no trailing slash!)
 ?>

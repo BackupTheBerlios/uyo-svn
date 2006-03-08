@@ -10,7 +10,7 @@ CREATE TABLE `uyo_settings` (
   `mail_mailbox` VARCHAR(30)
 );
 
-# Let's insert the one row this table should contain
+# Let's insert the one row this table should contain (we can fill it later)
 INSERT INTO `uyo_settings` () VALUES ();
 
 CREATE TABLE `feeds` (
@@ -26,18 +26,19 @@ CREATE TABLE `users` (
   `username` VARCHAR(15) NOT NULL,
   `password` CHAR(32) NOT NULL DEFAULT MD5(''),
   `rank` TINYINT(1) NOT NULL DEFAULT 0,
-  `firstname` VARCHAR(50) NOT NULL, 
+  `firstname` VARCHAR(50), 
   `lastname` VARCHAR(50), 
   `nickname` VARCHAR(50), 
+  `displayname` ENUM('f l', 'l f', 'l, f', 'n', 'f "n" l'), 
   `url` VARCHAR(255),
   `email` VARCHAR(255) NOT NULL,
-  `photo` BLOB # 65 KB ought to be more than enough
-  # is it better to have the photos as files or as blobs?
+  `tinyimageurl` VARCHAR(255), 
+  `bigimageurl` VARCHAR(255)
 );
 
 # Create an admin user and a user for automatic posts (must update autobot's password with a strong, random password later!)
-INSERT INTO `users` (`username`, `password`, `rank`, `firstname`) VALUES ('admin', MD5('admin'), 9, 'Administrator');
-INSERT INTO `users` (`username`, `rank`, `firstname`) VALUES ('autobot', 4, 'Automatic post');
+INSERT INTO `users` (`username`, `password`, `rank`, `nickname`, `displayname`) VALUES ('admin', MD5('admin'), 9, 'Administrator', 'n');
+INSERT INTO `users` (`username`, `rank`, `nickname`, `displayname`) VALUES ('autobot', 4, 'Automatic post', 'n');
 
 CREATE TABLE `groups` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
