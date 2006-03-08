@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of UyO.no.
  * 
@@ -19,16 +18,15 @@
  */
 
 // Local cache of MySQL data (reduces number of queries)
-$group_codes = array();
-$author_usernames = array();
-$linktype_shortnames = array();
-$entrytype_shortnames = array();
+$group_by_name = array();
+$authors_by_username = array();
+$linktypes_by_shortname = array();
+$entrytypes_by_shortname = array();
 
 /**
  * A group (most likely the uni course) entries can belong to
  */
 class Group {
-	var $code;
 	var $name;
 	var $desc;
 	var $bordercolor;
@@ -42,14 +40,14 @@ class Group {
 	 * @param string HTMLized RGB color of the border
 	 * @param string HTMLized RGB color of the background
 	 */
-		function Group($code, $name, $bc = '#0a8', $bgc = '#0f0') {
-		$this->code = $code;
+		function Group($name, $desc, $bc = '#0a8', $bgc = '#0f0') {
 		$this->name = $name;
+		$this->desc = $desc;
 		$this->bordercolor = $bc;
 		$this->bgcolor = $bgc;
 		
 		// Append to collection of groups
-		$group_codes[$this->code] = $this;
+		$group_codes[$this->name] = $this;
 	}
 } // end Group
 
@@ -73,7 +71,7 @@ class Entry {
 	 * @param string the meat of this Entry
 	 * @param array any links in this Entry
 	 */
-	function Entry($group, $text, $title, $id, $links, $type, $status = 'automatic', $author = 'auto') {
+	function Entry($group, $text, $title, $id, $links = '', $type = 'text', $status = 'automatic', $author = 'auto') {
 		$this->group = & $group; // should this be a reference or not?
 		$this->text = $text;
 		$this->title = $title;
@@ -129,7 +127,7 @@ class Entry {
 				if ($this->status == 'manual') {
 					$result .= '<a href="profile.php?id='.$this->author->id.'"><img src="$GLOBALS[USERIMAGEDIR]/'.$this->author->tinyimageurl.'" alt="Manual entry" title="Manual entry by '.$this->author->name.' at '.date("Y-m-d H:i", $this->modifieddate).'." /></a>';
 				} else {
-					$result .= '<img src="$GLOBALS[USERIMAGEDIR]/'.$author_usernames['autobot']->tinyimageurl.' alt="Automatic entry" title="Automatic entry at '.date("Y-m-d H:i", $this->modifieddate).'." />';
+					$result .= '<img src="$GLOBALS[USERIMAGEDIR]/'.$authors_by_username['autobot']->tinyimageurl.' alt="Automatic entry" title="Automatic entry at '.date("Y-m-d H:i", $this->modifieddate).'." />';
 				}
 
 				$result .= '
@@ -188,7 +186,7 @@ class Entry {
  		$this->photo = $photo;	// with the current mysql scheme, this is an image blob
  		
 		// Append to collection of authors
-		$author_usernames[$this->username] = $this;
+		$authors_by_username[$this->username] = $this;
  	}
  }
 
@@ -225,7 +223,7 @@ class LinkType {
 		$this->image = $image;
 		
 		// Append to collection of link types
-		$linktype_shortnames[$this->shortname] = $this;
+		$linktypes_by_shortname[$this->shortname] = $this;
 	}
 }
 
@@ -244,7 +242,7 @@ class EntryType {
 		$this->permalink = $permalink;
 		
 		// Append to collection of entry types
-		$entrytype_shortnames[$this->shortname] = $this;
+		$entrytypes_by_shortname[$this->shortname] = $this;
 	}
 }
 ?>
