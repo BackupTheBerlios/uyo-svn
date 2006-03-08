@@ -37,7 +37,7 @@ class Group {
 	 * @param string HTMLized RGB color of the background
 	 */
 		function Group($code, $name, $bc = '#0a8', $bgc = '#0f0') {// Do I have to specify default values here, or above?
-	$this->code = $code;
+		$this->code = $code;
 		$this->name = $name;
 		$this->bordercolor = $bc;
 		$this->bgcolor = $bgc;
@@ -55,6 +55,7 @@ class Entry {
 	var $links;
 	var $type;
 	var $status;
+	var $author;
 
 	/**
 	 * Entry constructor

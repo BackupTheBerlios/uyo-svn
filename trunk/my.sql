@@ -3,13 +3,15 @@
 USE `uyo_development`;
 
 CREATE TABLE `uyo_settings` (
-  `id` SMALLINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `mail_server` VARCHAR(30),
   `mail_username` VARCHAR(30),
   `mail_password` VARCHAR(32),
   `mail_account` VARCHAR(40),
   `mail_mailbox` VARCHAR(30)
 );
+
+# Let's insert the one row this table should contain
+INSERT INTO `uyo_settings` () VALUES ();
 
 CREATE TABLE `feeds` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
@@ -58,8 +60,8 @@ CREATE TABLE `entries` (
 );
 
 # Create a couple of demo posts
-INSERT INTO `entries` (`author`, `group`, `title`, `text`, `status`, `type`) VALUES (1, 1, 'Demo Post 1', '<p>Hey there! This is a small demo post, just to show you what entries into this system can look like.</p>', 'automatic', 'text');
-INSERT INTO `entries` (`author`, `group`, `title`, `text`, `status`, `type`) VALUES (1, 1, 'Demo Post 2', '<p>If you like what you see, well, GOOD FOR YOU! ;)</p><p>Nah, seriously, if you do--send me an email! You can reach me at \'mail\', the usual A shaped doodle, \'funky-m.com\'. Thanks!</p>', 'automatic', 'link');
+INSERT INTO `entries` (`author`, `group`, `title`, `text`, `status`, `type`) VALUES (2, 1, 'Demo Post 1', '<p>Hey there! This is a small demo post, just to show you what entries into this system can look like.</p>', 'automatic', 'text');
+INSERT INTO `entries` (`author`, `group`, `title`, `text`, `status`, `type`) VALUES (2, 1, 'Demo Post 2', '<p>If you like what you see, well, GOOD FOR YOU! ;)</p><p>Nah, seriously, if you do--send me an email! You can reach me at \'mail\', the usual A shaped doodle, \'funky-m.com\'. Thanks!</p>', 'automatic', 'link');
 
 CREATE TABLE `comments` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -73,7 +75,7 @@ CREATE TABLE `comments` (
 );
 
 # Create a demo comment
-INSERT INTO `comments` (`date`, `author`, `entry`, `text`) VALUES (NOW(), 1, 1, 'Hi there!<br />This is a comment, just to show you how these guys can look. Enjoy!<br />--UyO');
+INSERT INTO `comments` (`date`, `author`, `entry`, `text`) VALUES (NOW(), 2, 1, 'Hi there!<br />This is a comment, just to show you how these guys can look. Enjoy!<br />--UyO');
 
 CREATE TABLE `links` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
