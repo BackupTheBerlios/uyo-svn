@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// Local cache of MySQL data (reduces number of queries)
+// Local cache of data (reduces number of queries)
 $group_by_name = array();
 $authors_by_username = array();
 $linktypes_by_shortname = array();
@@ -35,8 +35,8 @@ class Group {
 	/**
 	 * Group constructor
 	 *
-	 * @param string the code of this Group ("fagkode")
-	 * @param string the name of this Group (e.g. 'Fysikk - Mekanikk')
+	 * @param string the name of this Group (e.g. 'FYS-MEF1110')
+	 * @param string the description of this Group (e.g. 'Fysikk - Mekanikk')
 	 * @param string HTMLized RGB color of the border
 	 * @param string HTMLized RGB color of the background
 	 */
